@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS stuff
+*.db
+
+# Data (keep private)
+*.xml
+*.csv
+*.json
+
+# Virtual environments
+venv/
+.env/
+
