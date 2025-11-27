@@ -12,6 +12,7 @@ __pycache__/
 *.xml
 *.csv
 *.json
+data/
 
 # Virtual environments
 venv/
