@@ -17,13 +17,26 @@ def sanitize(df: pd.DataFrame, salt: str) -> pd.DataFrame:
     hasher = lambda value: hashlib.sha256(f"{value}{salt}".encode()).hexdigest()[:10]
 
     # Appending a hash column
-    df["user_hash"] = df["number"].map(hasher)
+    df["contact"] = df["number"].map(hasher)
+
+    # Call type mapping
+    CALL_TYPE_MAP = {
+        1: "incoming",
+        2: "outgoing",
+        3: "missed",
+        4: "rejected",
+        5: "voicemail"
+    }
+
+    df["call_type"] = df["type"].map(CALL_TYPE_MAP).fillna("unknown")
 
     # A list of safe columns
-    safe_columns = ["user_hash", "duration", "date", "type"]
+    safe_columns = ["contact", "call_type", "duration", "readable_date", "date"]
 
     # Buiding the final anonymized df.
     safe_df = df[safe_columns].copy()
+    safe_df.rename(columns={"date": "timestamp","readable_date": "date"}, inplace=True)
+    
     return safe_df
 
 def anonymize(filepath: str) -> pd.DataFrame:
